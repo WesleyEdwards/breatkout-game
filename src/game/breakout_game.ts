@@ -1,7 +1,12 @@
+import { GameInfo } from "../components/Types";
 import { GameState } from "./gameState/GameState";
 import { setUpUI } from "./setUpUI";
 
-export function enterGamePlay() {
+type enterGameProps = {
+  setGameInfo: (gameInfo: GameInfo) => void;
+};
+
+export function enterGamePlay(gameProps: enterGameProps) {
   let gameState: GameState | undefined;
   let prevTime = 0;
   let initial = true;

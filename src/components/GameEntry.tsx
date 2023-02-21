@@ -1,16 +1,19 @@
-import { Button, Card, Stack } from "@mui/material";
-import React, { FC, useEffect, useState } from "react";
+import { Stack } from "@mui/material";
+import { FC, useEffect, useState } from "react";
 import enterGamePlay from "../game/breakout_game";
-import { MAX_CANVAS_HEIGHT } from "../utils/constants";
+import { MAX_CANVAS_WIDTH } from "../utils/constants";
 import BreakoutMenu from "./BreakoutMenu";
+import { MenuBar } from "./MenuBar";
+import { GameInfo, initGameInfo } from "./Types";
 
 export const GameEntry: FC = () => {
   const [play, setPlay] = useState(false);
   const [canvasRef, setCanvasRef] = useState(true);
+  const [gameInfo, setGameInfo] = useState<GameInfo>(initGameInfo);
 
   const enterGame = () => {
     setPlay(true);
-    enterGamePlay();
+    enterGamePlay({ setGameInfo });
   };
 
   const exitGame = () => {
@@ -23,12 +26,14 @@ export const GameEntry: FC = () => {
   }, [play]);
 
   return (
-    <Stack justifyItems="center" alignItems="center">
+    <Stack
+      justifyItems="center"
+      alignItems="center"
+      width={`${MAX_CANVAS_WIDTH}px`}
+    >
       {canvasRef && <div id="empty"></div>}
       {play ? (
-        <Button sx={{ width: "12rem", mt: "2rem" }} onClick={exitGame}>
-          Main Menu
-        </Button>
+        <MenuBar exitGame={exitGame} gameInfo={gameInfo} />
       ) : (
         <BreakoutMenu startPlay={enterGame} />
       )}
