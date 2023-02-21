@@ -1,49 +1,43 @@
-import { colorPalette } from "../../utils/colors";
-import {
-  bricks_per_row,
-  brick_height,
-  lowest_bricks,
-  MAX_CANVAS_WIDTH,
-} from "../../utils/constants";
+import { ball_radius, paddle_width } from "../../utils/constants";
 import { Ball } from "../objects/Ball";
 import { Brick } from "../objects/Brick";
+import { Paddle } from "../objects/Paddle";
 
-export function createBricks(): Brick[] {
-  const spaceBetweenBricks = 5;
-  const brickWidth =
-    (MAX_CANVAS_WIDTH - bricks_per_row * spaceBetweenBricks) / bricks_per_row;
+export function ballPaddleCollision(
+  ball: Ball,
+  paddle: Paddle
+): number | undefined {
+  if (ball.direction.y < 0) return undefined;
 
-  const bricks: Brick[] = [];
-
-  new Array(bricks_per_row).fill(null).map((_, i) => {
-    const xPos = i * (brickWidth + spaceBetweenBricks) + spaceBetweenBricks;
-
-    colorPalette.brick.forEach((color, i) => {
-      const yPos = lowest_bricks - (brick_height + spaceBetweenBricks) * i;
-      bricks.push(
-        new Brick({ x: xPos, y: yPos }, brickWidth, brick_height, color)
-      );
-    });
-  });
-  return bricks;
+  if (
+    ball.pos.x + ball_radius > paddle.pos.x &&
+    ball.pos.x - ball_radius < paddle.pos.x + paddle_width &&
+    ball.pos.y + ball_radius > paddle.pos.y
+  ) {
+    // return the fraction of the paddle that the ball hit
+    return (ball.pos.x - paddle.pos.x) / paddle_width - 0.5;
+  }
 }
 
-export function calcBrickCollision(ball: Ball, bricks: Brick[]): void {
-  bricks.forEach((brick) => {
-    if (brick.alive) {
-      const brickPos = brick.pos;
-      const brickWidth = brick.width;
-      const brickHeight = brick.height;
+export function calcBrickCollision(ball: Ball, bricks: Brick[][]): void {
+  bricks.forEach((row) =>
+    row.forEach((brick) => {
+      if (brick.alive) {
+        const brickPos = brick.pos;
+        const brickWidth = brick.width;
+        const brickHeight = brick.height;
 
-      if (
-        ball.pos.x > brickPos.x &&
-        ball.pos.x < brickPos.x + brickWidth &&
-        ball.pos.y > brickPos.y &&
-        ball.pos.y < brickPos.y + brickHeight
-      ) {
-        brick.alive = false;
-        ball.reverseY();
+        if (
+          ball.pos.x > brickPos.x &&
+          ball.pos.x < brickPos.x + brickWidth &&
+          ball.pos.y > brickPos.y &&
+          ball.pos.y < brickPos.y + brickHeight
+        ) {
+          brick.alive = false;
+          ball.reverseY();
+          ball.bricksBroken += 1;
+        }
       }
-    }
-  });
+    })
+  );
 }

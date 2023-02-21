@@ -3,9 +3,11 @@ export const MAX_CANVAS_HEIGHT = 576;
 
 export const paddle_height = 20;
 export const paddle_width = 100;
-export const paddle_speed = 7;
+export const paddle_speed = 10;
 
 export const init_ball_speed = 0.5;
+export const ball_increase = 0.15;
+// export const ball_increase = 0.1;
 export const ball_radius = 10;
 
 export const lowest_bricks = 250;

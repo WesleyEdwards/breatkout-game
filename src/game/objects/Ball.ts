@@ -1,22 +1,22 @@
 import { colorPalette } from "../../utils/colors";
 import {
+  ball_increase,
   ball_radius,
   init_ball_speed,
   MAX_CANVAS_HEIGHT,
   MAX_CANVAS_WIDTH,
 } from "../../utils/constants";
-import { Coordinates } from "../helpers";
+import { Coordinates } from "../gameState/game_constructor";
 
 export class Ball {
   pos: Coordinates;
-  speed: number;
   direction: Coordinates;
+  bricksBroken: number = 0;
   constructor() {
     this.pos = {
       x: MAX_CANVAS_WIDTH / 4,
       y: MAX_CANVAS_HEIGHT / 2,
     };
-    this.speed = init_ball_speed;
     this.direction = {
       x: 0.5,
       y: 0.5,
@@ -40,8 +40,8 @@ export class Ball {
       this.reverseY();
     }
 
-    this.pos.x += this.direction.x * this.speed * elapsedTime;
-    this.pos.y += this.direction.y * this.speed * elapsedTime;
+    this.pos.x += this.direction.x * this.speed() * elapsedTime;
+    this.pos.y += this.direction.y * this.speed() * elapsedTime;
   }
   draw(context: CanvasRenderingContext2D) {
     context.fillStyle = colorPalette.ball;
@@ -58,5 +58,15 @@ export class Ball {
 
   reverseY() {
     this.direction.y *= -1;
+  }
+  speed() {
+    return init_ball_speed + ball_increase * this.bricksValue();
+  }
+  bricksValue() {
+    if (this.bricksBroken < 4) return 0;
+    if (this.bricksBroken < 12) return 1;
+    if (this.bricksBroken < 36) return 2;
+    if (this.bricksBroken < 62) return 3;
+    return 4;
   }
 }
