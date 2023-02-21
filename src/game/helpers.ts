@@ -1,4 +1,4 @@
-import { ball_radius } from "../utils/constants";
+import { ball_radius, paddle_width } from "../utils/constants";
 import { Ball } from "./objects/Ball";
 import { Paddle } from "./objects/Paddle";
 
@@ -29,17 +29,14 @@ export function ballPaddleCollision(
   ball: Ball,
   paddle: Paddle
 ): number | undefined {
-  const ball_pos = ball.getPos();
-  const paddle_pos = paddle.getPos();
-
-  if (ball.getDirection().y < 0) return undefined;
+  if (ball.direction.y < 0) return undefined;
 
   if (
-    ball_pos.x + ball_radius > paddle_pos.x &&
-    ball_pos.x - ball_radius < paddle_pos.x + paddle.getWidth() &&
-    ball_pos.y + ball_radius > paddle_pos.y
+    ball.pos.x + ball_radius > paddle.pos.x &&
+    ball.pos.x - ball_radius < paddle.pos.x + paddle_width &&
+    ball.pos.y + ball_radius > paddle.pos.y
   ) {
     // return the fraction of the paddle that the ball hit
-    return (ball_pos.x - paddle_pos.x) / paddle.getWidth() - 0.5;
+    return (ball.pos.x - paddle.pos.x) / paddle_width - 0.5;
   }
 }

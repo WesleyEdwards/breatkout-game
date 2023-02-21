@@ -1,3 +1,4 @@
+import { colorPalette } from "../../utils/colors";
 import {
   ball_radius,
   init_ball_speed,
@@ -7,9 +8,9 @@ import {
 import { Coordinates } from "../helpers";
 
 export class Ball {
-  private pos: Coordinates;
-  private speed: number;
-  private direction: Coordinates;
+  pos: Coordinates;
+  speed: number;
+  direction: Coordinates;
   constructor() {
     this.pos = {
       x: MAX_CANVAS_WIDTH / 4,
@@ -24,7 +25,7 @@ export class Ball {
 
   update(elapsedTime: number, collision?: number) {
     if (collision) {
-      this.calcCollision(collision);
+      this.handleCollision(collision);
     }
     if (this.pos.x + ball_radius > MAX_CANVAS_WIDTH) {
       this.direction.x *= -1;
@@ -33,32 +34,29 @@ export class Ball {
       this.direction.x *= -1;
     }
     if (this.pos.y + ball_radius > MAX_CANVAS_HEIGHT) {
-      this.direction.y *= -1;
+      this.reverseY();
     }
     if (this.pos.y - ball_radius < 0) {
-      this.direction.y *= -1;
+      this.reverseY();
     }
 
     this.pos.x += this.direction.x * this.speed * elapsedTime;
     this.pos.y += this.direction.y * this.speed * elapsedTime;
   }
   draw(context: CanvasRenderingContext2D) {
-    context.fillStyle = "black";
+    context.fillStyle = colorPalette.ball;
     context.beginPath();
     context.arc(this.pos.x, this.pos.y, ball_radius, 0, 2 * Math.PI);
     context.fill();
   }
 
-  calcCollision(partOfPaddle: number) {
+  handleCollision(partOfPaddle: number) {
     this.direction.x = partOfPaddle;
     this.direction.y = 1 - Math.abs(this.direction.x);
-    this.direction.y *= -1;
+    this.reverseY();
   }
 
-  getPos() {
-    return this.pos;
-  }
-  getDirection() {
-    return this.direction;
+  reverseY() {
+    this.direction.y *= -1;
   }
 }

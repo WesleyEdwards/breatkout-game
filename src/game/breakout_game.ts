@@ -1,4 +1,4 @@
-import { GameState } from "./GameState";
+import { GameState } from "./gameState/GameState";
 import { setUpUI } from "./setUpUI";
 
 export function enterGamePlay() {

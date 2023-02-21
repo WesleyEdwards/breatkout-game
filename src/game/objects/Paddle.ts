@@ -6,9 +6,10 @@ import {
   paddle_speed,
   paddle_width,
 } from "../../utils/constants";
+import { colorPalette } from "../../utils/colors";
 
 export class Paddle {
-  private pos: Coordinates;
+  pos: Coordinates;
   constructor() {
     this.pos = {
       x: MAX_CANVAS_WIDTH / 2 - paddle_width / 2,
@@ -27,16 +28,7 @@ export class Paddle {
     }
   }
   draw(context: CanvasRenderingContext2D) {
-    context.fillStyle = "black";
+    context.fillStyle = colorPalette.paddle;
     context.fillRect(this.pos.x, this.pos.y, paddle_width, paddle_height);
-  }
-  getPos() {
-    return this.pos;
-  }
-  getWidth() {
-    return paddle_width;
-  }
-  getHeight() {
-    return paddle_height;
   }
 }
