@@ -1,15 +1,17 @@
 import { Stack, Typography } from "@mui/material";
 import React, { FC } from "react";
-import { ScreenProps } from "./BreakoutMenu";
+import { ScreenProps } from "../BreakoutMenu";
 import ScreenHeader from "./ScreenHeader";
 
-export const HighScores: FC<ScreenProps> = ({ onBack }) => {
+export const About: FC<ScreenProps> = ({ onBack }) => {
   return (
     <Stack>
-      <ScreenHeader title="High Scores" backToMenu={onBack} />
+      <ScreenHeader title="About" backToMenu={onBack} />
       <Typography variant="body1" textAlign="center">
-        No high scores yet!
+        This game was created by Wesley Edwards
       </Typography>
     </Stack>
   );
 };
+
+export default About;

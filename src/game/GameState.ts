@@ -12,8 +12,8 @@ export class GameState {
   }
   updateAll(elapsedTime: number, handleWin: () => void) {
     const collision = ballPaddleCollision(this.ball, this.paddle);
-    this.paddle.update(elapsedTime, this.keys);
     this.ball.update(elapsedTime, collision);
+    this.paddle.update(elapsedTime, this.keys);
   }
   drawAll(context: CanvasRenderingContext2D) {
     context.fillStyle = "green";

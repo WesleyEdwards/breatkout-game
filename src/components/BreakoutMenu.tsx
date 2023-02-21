@@ -1,8 +1,15 @@
-import { Button, Container, IconButton, Stack } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  Container,
+  IconButton,
+  Stack,
+} from "@mui/material";
 import React, { FC, useState } from "react";
-import About from "./About";
-import Help from "./Help";
-import { HighScores } from "./HighScores";
+import About from "./menuPages/About";
+import Help from "./menuPages/Help";
+import { HighScores } from "./menuPages/HighScores";
 
 export type ScreenProps = {
   onBack: () => void;
@@ -27,30 +34,38 @@ export const BreakoutMenu: FC<{ startPlay: () => void }> = ({ startPlay }) => {
 
   const backToMenu = () => setSelected("menu");
 
-  if (selected === "menu") {
-    return (
-      <Stack height="12rem" justifyContent="space-between" alignItems="center">
-        {menuButtons.map((menuButton) => (
-          <Button
-            key={menuButton.text}
-            sx={{ width: "12rem" }}
-            onClick={menuButton.onClick}
-          >
-            {menuButton.text}
-          </Button>
-        ))}
-      </Stack>
-    );
-  }
-
   return (
     <Container maxWidth="sm">
-      {(() => {
-        if (selected === "highScores")
-          return <HighScores onBack={backToMenu} />;
-        if (selected === "help") return <Help onBack={backToMenu} />;
-        if (selected === "about") return <About onBack={backToMenu} />;
-      })()}
+      <Card>
+        <CardContent>
+          {(() => {
+            if (selected === "menu") {
+              return (
+                <Stack
+                  height="16rem"
+                  justifyContent="space-evenly"
+                  alignItems="center"
+                >
+                  {menuButtons.map((menuButton) => (
+                    <Button
+                      key={menuButton.text}
+                      sx={{ width: "12rem" }}
+                      onClick={menuButton.onClick}
+                    >
+                      {menuButton.text}
+                    </Button>
+                  ))}
+                </Stack>
+              );
+            }
+
+            if (selected === "highScores")
+              return <HighScores onBack={backToMenu} />;
+            if (selected === "help") return <Help onBack={backToMenu} />;
+            if (selected === "about") return <About onBack={backToMenu} />;
+          })()}
+        </CardContent>
+      </Card>
     </Container>
   );
 };

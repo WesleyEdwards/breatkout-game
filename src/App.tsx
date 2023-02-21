@@ -5,9 +5,7 @@ import {
   Stack,
   ThemeProvider,
 } from "@mui/material";
-import { useState } from "react";
 import { BreakoutHeader } from "./components/BreakoutHeader";
-import { BreakoutMenu } from "./components/BreakoutMenu";
 import { GameEntry } from "./components/GameEntry";
 
 function App() {

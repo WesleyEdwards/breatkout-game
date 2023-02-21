@@ -17,13 +17,14 @@ export class Ball {
     };
     this.speed = init_ball_speed;
     this.direction = {
-      x: 1,
-      y: 1,
+      x: 0.5,
+      y: 0.5,
     };
   }
-  update(elapsedTime: number, collision: boolean) {
+
+  update(elapsedTime: number, collision?: number) {
     if (collision) {
-      this.direction.y *= -1;
+      this.calcCollision(collision);
     }
     if (this.pos.x + ball_radius > MAX_CANVAS_WIDTH) {
       this.direction.x *= -1;
@@ -47,6 +48,13 @@ export class Ball {
     context.arc(this.pos.x, this.pos.y, ball_radius, 0, 2 * Math.PI);
     context.fill();
   }
+
+  calcCollision(partOfPaddle: number) {
+    this.direction.x = partOfPaddle;
+    this.direction.y = 1 - Math.abs(this.direction.x);
+    this.direction.y *= -1;
+  }
+
   getPos() {
     return this.pos;
   }

@@ -1,5 +1,3 @@
-import { createElement } from "react";
-import { MAX_CANVAS_HEIGHT, MAX_CANVAS_WIDTH } from "../utils/constants";
 import { GameState } from "./GameState";
 import { setUpUI } from "./setUpUI";
 
