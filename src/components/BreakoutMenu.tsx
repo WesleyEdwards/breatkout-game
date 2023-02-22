@@ -10,9 +10,10 @@ import { MenuButton, Page } from "./Types";
 type BreakoutMenuProps = {
   startPlay: () => void;
   initialPage?: Page;
+  score: number;
 };
 export const BreakoutMenu: FC<BreakoutMenuProps> = (props) => {
-  const { startPlay, initialPage = "menu" } = props;
+  const { startPlay, score, initialPage = "menu" } = props;
 
   const [selected, setSelected] = useState<Page>(initialPage);
 
@@ -53,7 +54,9 @@ export const BreakoutMenu: FC<BreakoutMenuProps> = (props) => {
               return <HighScores onBack={backToMenu} />;
             if (selected === "help") return <Help onBack={backToMenu} />;
             if (selected === "about") return <About onBack={backToMenu} />;
-            if (selected === "lose") return <LoseScreen onBack={backToMenu} />;
+            if (selected === "lose")
+              return <LoseScreen onBack={backToMenu} score={score} />;
+            if (selected === "win") return <>TODO</>;
           })()}
         </CardContent>
       </Card>

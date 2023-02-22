@@ -2,15 +2,14 @@ import { Button, Stack, Typography } from "@mui/material";
 import { FC } from "react";
 import { life_image } from "../utils/colors";
 import { GameButton } from "./GameButton";
-import { GameInfo } from "./Types";
+import { GameInfo, Page } from "./Types";
 
 interface MenuBarProps {
   exitGame: () => void;
   gameInfo: GameInfo;
 }
 export const MenuBar: FC<MenuBarProps> = (props) => {
-  const { gameInfo, exitGame } = props;
-
+  const { gameInfo } = props;
   return (
     <Stack
       width="100%"
@@ -37,7 +36,7 @@ export const MenuBar: FC<MenuBarProps> = (props) => {
           />
         ))}
       </div>
-      <GameButton onClick={exitGame} text="Main Menu" />
+      <GameButton onClick={() => location.reload()} text="Main Menu" />
       <Typography
         variant="h5"
         style={{

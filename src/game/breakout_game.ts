@@ -6,6 +6,7 @@ import { setUpUI } from "./setUpUI";
 type EnterGameProps = {
   decrementLife: () => void;
   addScore: (score: number) => void;
+  onWin: () => void;
 };
 
 type Values = {

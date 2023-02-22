@@ -4,12 +4,12 @@ import { GameButton } from "../GameButton";
 import { ScreenProps } from "../Types";
 import ScreenHeader from "./ScreenHeader";
 
-export const LoseScreen: FC<ScreenProps> = ({ onBack }) => {
+export const LoseScreen: FC<ScreenProps> = ({ onBack, score }) => {
   return (
     <Stack width="100%" justifyContent="center" gap="2rem">
       <ScreenHeader title="You Lose" backToMenu={onBack} />
       <Typography variant="body1" textAlign="center">
-        You Lose! Sorry.
+        You Lose! Sorry. But you got a score of {score}
       </Typography>
       <GameButton
         sx={{ alignSelf: "center" }}

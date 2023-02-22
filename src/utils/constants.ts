@@ -16,7 +16,7 @@ export const ball_radius = 10;
 
 export const lowest_bricks = 220;
 export const brick_height = 20;
-export const bricks_per_row = 16;
+export const bricks_per_row = 2;
 
 export const paddle_start_pos: Coordinates = {
   x: MAX_CANVAS_WIDTH / 2 - paddle_width / 2,

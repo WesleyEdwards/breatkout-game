@@ -16,12 +16,12 @@ export const colorPalette = {
   brick: [
     "yellow",
     "yellow",
-    "orange",
-    "orange",
-    "blue",
-    "blue",
-    "green",
-    "green",
+    // "orange",
+    // "orange",
+    // "blue",
+    // "blue",
+    // "green",
+    // "green",
   ] satisfies BrickColor[],
 } as const;
 

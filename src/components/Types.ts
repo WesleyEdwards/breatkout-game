@@ -12,6 +12,7 @@ export const initGameInfo: GameInfo = {
 
 export type ScreenProps = {
   onBack: () => void;
+  score?: number;
 };
 
 export type MenuButton = {
@@ -25,4 +26,5 @@ export type Page =
   | "highScores"
   | "help"
   | "about"
-  | "lose";
+  | "lose"
+  | "win";
