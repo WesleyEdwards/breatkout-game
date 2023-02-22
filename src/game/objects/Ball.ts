@@ -15,29 +15,30 @@ export class Ball {
   direction: Coordinates;
   bricksBroken: number = 0;
   constructor() {
-    this.pos = ball_start_pos;
-    this.direction = ball_start_vel;
+    this.pos = { ...ball_start_pos };
+    this.direction = { ...ball_start_vel };
   }
 
-  update(elapsedTime: number, collision?: number) {
+  update(elapsedTime: number, collision?: number): boolean {
     if (collision) {
       this.handleCollision(collision);
     }
     if (this.pos.x + ball_radius > MAX_CANVAS_WIDTH) {
-      this.direction.x *= -1;
+      this.reverseX();
     }
     if (this.pos.x - ball_radius < 0) {
-      this.direction.x *= -1;
-    }
-    if (this.pos.y + ball_radius > MAX_CANVAS_HEIGHT) {
-      this.reverseY();
+      this.reverseX();
     }
     if (this.pos.y - ball_radius < 0) {
       this.reverseY();
     }
+    if (this.pos.y > MAX_CANVAS_HEIGHT - 5) {
+      return true;
+    }
 
     this.pos.x += this.direction.x * this.speed() * elapsedTime;
     this.pos.y += this.direction.y * this.speed() * elapsedTime;
+    return false;
   }
   draw(context: CanvasRenderingContext2D) {
     context.fillStyle = colorPalette.ball;
@@ -54,6 +55,9 @@ export class Ball {
 
   reverseY() {
     this.direction.y *= -1;
+  }
+  reverseX() {
+    this.direction.x *= -1;
   }
   speed() {
     return init_ball_speed + ball_increase * this.bricksValue();

@@ -7,7 +7,6 @@ import {
 } from "../../utils/constants";
 import { Brick } from "../objects/Brick";
 
-
 export type Keys = {
   direction: "left" | "right" | "none";
 };
@@ -28,8 +27,9 @@ export function addEventListeners(keys: Keys) {
 
 export function createBricks(): Brick[][] {
   const spaceBetweenBricks = 5;
-  const brickWidth =
-    (MAX_CANVAS_WIDTH - bricks_per_row * spaceBetweenBricks) / bricks_per_row;
+  const emptySpaceBetween = bricks_per_row * spaceBetweenBricks;
+  const screenWithEndSpace = MAX_CANVAS_WIDTH - spaceBetweenBricks;
+  const brickWidth = (screenWithEndSpace - emptySpaceBetween) / bricks_per_row;
 
   return new Array(bricks_per_row).fill(null).map((_, i) => {
     const xPos = i * (brickWidth + spaceBetweenBricks) + spaceBetweenBricks;

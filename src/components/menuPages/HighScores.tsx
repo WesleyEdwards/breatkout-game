@@ -1,7 +1,6 @@
 import { Stack, Typography } from "@mui/material";
 import React, { FC } from "react";
-import { ScreenProps } from "../BreakoutMenu";
-import ScreenHeader from "./ScreenHeader";
+import { ScreenProps } from "../Types";import ScreenHeader from "./ScreenHeader";
 
 export const HighScores: FC<ScreenProps> = ({ onBack }) => {
   return (
@@ -13,3 +12,5 @@ export const HighScores: FC<ScreenProps> = ({ onBack }) => {
     </Stack>
   );
 };
+
+export default HighScores;

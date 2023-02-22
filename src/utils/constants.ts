@@ -1,5 +1,8 @@
 import { Coordinates } from "./helpers";
 
+
+export const start_lives = 3;
+
 export const MAX_CANVAS_WIDTH = 1024;
 export const MAX_CANVAS_HEIGHT = 576;
 

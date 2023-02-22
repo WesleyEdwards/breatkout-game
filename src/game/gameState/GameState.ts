@@ -10,14 +10,19 @@ export class GameState {
   private ball: Ball = new Ball();
   private keys: Keys = { direction: "none" };
   private bricks: Brick[][] = createBricks();
+
   constructor() {
     addEventListeners(this.keys);
   }
-  updateAll(elapsedTime: number, handleWin: () => void) {
+  updateAll(elapsedTime: number, handleLoseLife: () => void) {
     calcBrickCollision(this.ball, this.bricks);
 
     const collision = ballPaddleCollision(this.ball, this.paddle);
-    this.ball.update(elapsedTime, collision);
+    const lostLife = this.ball.update(elapsedTime, collision);
+    if (lostLife) {
+      handleLoseLife();
+      this.resetState();
+    }
     this.paddle.update(elapsedTime, this.keys);
   }
   drawAll(context: CanvasRenderingContext2D) {
@@ -25,5 +30,9 @@ export class GameState {
     this.paddle.draw(context);
     this.ball.draw(context);
     this.bricks.forEach((row) => row.forEach((b) => b.draw(context)));
+  }
+  resetState() {
+    this.ball = new Ball();
+    this.paddle = new Paddle();
   }
 }

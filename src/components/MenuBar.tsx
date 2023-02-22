@@ -1,6 +1,7 @@
 import { Button, Stack, Typography } from "@mui/material";
 import { FC } from "react";
 import { life_image } from "../utils/colors";
+import { GameButton } from "./GameButton";
 import { GameInfo } from "./Types";
 
 interface MenuBarProps {
@@ -36,9 +37,7 @@ export const MenuBar: FC<MenuBarProps> = (props) => {
           />
         ))}
       </div>
-      <Button sx={{ width: "12rem", mt: "2rem" }} onClick={exitGame}>
-        Main Menu
-      </Button>
+      <GameButton onClick={exitGame} text="Main Menu" />
       <Typography
         variant="h5"
         style={{

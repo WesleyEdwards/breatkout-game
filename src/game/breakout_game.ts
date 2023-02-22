@@ -1,40 +1,36 @@
-import { GameInfo } from "../components/Types";
 import { emptyValues } from "../utils/helpers";
 import { displayCount } from "../utils/miscFunctions";
 import { GameState } from "./gameState/GameState";
 import { setUpUI } from "./setUpUI";
 
-type enterGameProps = {
-  setGameInfo: (gameInfo: GameInfo) => void;
+type EnterGameProps = {
+  decrementLife: () => void;
+  addScore: (score: number) => void;
 };
 
 type Values = {
   prevTime: number;
   initial: boolean;
   timeElapsed: number;
-  context: CanvasRenderingContext2D;
 };
 
-export function enterGamePlay(gameProps: enterGameProps) {
+export function enterGamePlay(gameProps: EnterGameProps) {
   let gameState: GameState | undefined;
 
   const context = setUpUI();
-  const values: Values = {
-    ...emptyValues,
-    context: context,
-  };
+  let values: Values = { ...emptyValues };
 
   function update(elapsedTime: number) {
     values.timeElapsed += elapsedTime;
     if (values.timeElapsed < 3000) {
       return;
     }
-    gameState?.updateAll(elapsedTime, handleWin);
+    gameState?.updateAll(elapsedTime, handleLoseLife);
   }
 
   function render() {
-    gameState?.drawAll(values.context);
-    displayCount(values.timeElapsed, values.context);
+    gameState?.drawAll(context);
+    displayCount(values.timeElapsed, context);
   }
 
   function gameLoop(timeStamp: number) {
@@ -55,11 +51,14 @@ export function enterGamePlay(gameProps: enterGameProps) {
     // handleWinUi(time, score, dimensions, () => initializeGameUi(startGame));
   }
 
+  const handleLoseLife = () => {
+    gameProps.decrementLife();
+    values = { ...emptyValues };
+  };
   function startGame() {
     // setupCanvas(canvas, context, startOver);
     values.initial = true;
     gameState = new GameState();
-
     requestAnimationFrame(gameLoop);
   }
 

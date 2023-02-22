@@ -10,9 +10,21 @@ export const GameEntry: FC = () => {
   const [canvasRef, setCanvasRef] = useState(true);
   const [gameInfo, setGameInfo] = useState<GameInfo>(initGameInfo);
 
+  const decrementLife = () =>
+    setGameInfo((prev) => ({
+      ...prev,
+      lives: prev.lives - 1,
+    }));
+
+  const addScore = (score: number) =>
+    setGameInfo((prev) => ({ ...prev, score: prev.score + score }));
+
   const enterGame = () => {
     setPlay(true);
-    enterGamePlay({ setGameInfo });
+    enterGamePlay({
+      decrementLife,
+      addScore,
+    });
   };
 
   const exitGame = () => {
@@ -23,6 +35,12 @@ export const GameEntry: FC = () => {
   useEffect(() => {
     setCanvasRef(true);
   }, [play]);
+
+  useEffect(() => {
+    if (gameInfo.lives === 0) {
+      exitGame();
+    }
+  }, [gameInfo.lives]);
 
   return (
     <div
