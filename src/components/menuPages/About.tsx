@@ -1,6 +1,6 @@
 import { Stack, Typography } from "@mui/material";
 import React, { FC } from "react";
-import { ScreenProps } from "../BreakoutMenu";
+import { ScreenProps } from "../Types";
 import ScreenHeader from "./ScreenHeader";
 
 export const About: FC<ScreenProps> = ({ onBack }) => {

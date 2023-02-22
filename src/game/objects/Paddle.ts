@@ -13,7 +13,7 @@ import { Keys } from "../gameState/game_constructor";
 export class Paddle {
   pos: Coordinates;
   constructor() {
-    this.pos = paddle_start_pos;
+    this.pos = { ...paddle_start_pos };
   }
 
   update(elapsedTime: number, keys: Keys) {

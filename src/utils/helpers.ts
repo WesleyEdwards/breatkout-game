@@ -1,10 +1,9 @@
-
 export type Coordinates = {
-    x: number;
-    y: number;
-  };
+  x: number;
+  y: number;
+};
 
-export function debounceLog(val: string) {
+export function debounceLog(val: any) {
   if (generateRandomInt(0, 100) === 1) {
     console.log(val);
   }

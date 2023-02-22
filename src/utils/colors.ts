@@ -1,3 +1,5 @@
+import { BrickColor } from "../game/objects/Brick";
+
 const colorLibrary = {
   dark: "#363635",
   darkSecondary: "#595A4A",
@@ -20,7 +22,7 @@ export const colorPalette = {
     "blue",
     "green",
     "green",
-  ],
+  ] satisfies BrickColor[],
 } as const;
 
 export const countDownFont = {

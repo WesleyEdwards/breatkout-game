@@ -25,7 +25,7 @@ export function enterGamePlay(gameProps: EnterGameProps) {
     if (values.timeElapsed < 3000) {
       return;
     }
-    gameState?.updateAll(elapsedTime, handleLoseLife);
+    gameState?.updateAll(elapsedTime, handleLoseLife, handleIncrementScore);
   }
 
   function render() {
@@ -51,10 +51,14 @@ export function enterGamePlay(gameProps: EnterGameProps) {
     // handleWinUi(time, score, dimensions, () => initializeGameUi(startGame));
   }
 
-  const handleLoseLife = () => {
+  function handleLoseLife() {
     gameProps.decrementLife();
     values = { ...emptyValues };
-  };
+  }
+
+  function handleIncrementScore(points: number) {
+    gameProps.addScore(points);
+  }
   function startGame() {
     // setupCanvas(canvas, context, startOver);
     values.initial = true;

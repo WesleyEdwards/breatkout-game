@@ -3,12 +3,13 @@ import enterGamePlay from "../game/breakout_game";
 import { MAX_CANVAS_WIDTH } from "../utils/constants";
 import BreakoutMenu from "./BreakoutMenu";
 import { MenuBar } from "./MenuBar";
-import { GameInfo, initGameInfo } from "./Types";
+import { GameInfo, initGameInfo, Page } from "./Types";
 
 export const GameEntry: FC = () => {
   const [play, setPlay] = useState(false);
   const [canvasRef, setCanvasRef] = useState(true);
   const [gameInfo, setGameInfo] = useState<GameInfo>(initGameInfo);
+  const [initialPage, setInitialPage] = useState<Page>();
 
   const decrementLife = () =>
     setGameInfo((prev) => ({
@@ -30,6 +31,7 @@ export const GameEntry: FC = () => {
   const exitGame = () => {
     setCanvasRef(false);
     setPlay(false);
+    setInitialPage("lose");
   };
 
   useEffect(() => {
@@ -55,7 +57,7 @@ export const GameEntry: FC = () => {
         {play ? (
           <MenuBar exitGame={exitGame} gameInfo={gameInfo} />
         ) : (
-          <BreakoutMenu startPlay={enterGame} />
+          <BreakoutMenu startPlay={enterGame} initialPage={initialPage} />
         )}
       </div>
     </div>

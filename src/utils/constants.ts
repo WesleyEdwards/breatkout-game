@@ -1,5 +1,5 @@
+import { BrickColor } from "../game/objects/Brick";
 import { Coordinates } from "./helpers";
-
 
 export const start_lives = 3;
 
@@ -31,3 +31,12 @@ export const ball_start_vel: Coordinates = {
   x: 0.25,
   y: -0.75,
 };
+
+export const brick_points_map: Record<BrickColor, number> = {
+  yellow: 1,
+  orange: 2,
+  blue: 3,
+  green: 5,
+};
+
+export const brick_line_points = 25;

@@ -31,11 +31,12 @@ export function createBricks(): Brick[][] {
   const screenWithEndSpace = MAX_CANVAS_WIDTH - spaceBetweenBricks;
   const brickWidth = (screenWithEndSpace - emptySpaceBetween) / bricks_per_row;
 
-  return new Array(bricks_per_row).fill(null).map((_, i) => {
-    const xPos = i * (brickWidth + spaceBetweenBricks) + spaceBetweenBricks;
-    return new Array(colorPalette.brick.length).fill(null).map((_, i) => {
+  return new Array(colorPalette.brick.length).fill(null).map((_, i) => {
+    const yPos = lowest_bricks - (brick_height + spaceBetweenBricks) * i;
+    return new Array(bricks_per_row).fill(null).map((_, j) => {
+      const xPos = j * (brickWidth + spaceBetweenBricks) + spaceBetweenBricks;
       return new Brick(
-        { x: xPos, y: lowest_bricks - (brick_height + spaceBetweenBricks) * i },
+        { x: xPos, y: yPos },
         brickWidth,
         brick_height,
         colorPalette.brick[i]

@@ -14,8 +14,12 @@ export class GameState {
   constructor() {
     addEventListeners(this.keys);
   }
-  updateAll(elapsedTime: number, handleLoseLife: () => void) {
-    calcBrickCollision(this.ball, this.bricks);
+  updateAll(
+    elapsedTime: number,
+    handleLoseLife: () => void,
+    incrementScore: (points: number) => void
+  ) {
+    calcBrickCollision(this.ball, this.bricks, incrementScore);
 
     const collision = ballPaddleCollision(this.ball, this.paddle);
     const lostLife = this.ball.update(elapsedTime, collision);
