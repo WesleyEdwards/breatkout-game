@@ -7,10 +7,6 @@ import {
 } from "../../utils/constants";
 import { Brick } from "../objects/Brick";
 
-export type Coordinates = {
-  x: number;
-  y: number;
-};
 
 export type Keys = {
   direction: "left" | "right" | "none";

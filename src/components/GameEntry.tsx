@@ -1,4 +1,3 @@
-import { Stack } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import enterGamePlay from "../game/breakout_game";
 import { MAX_CANVAS_WIDTH } from "../utils/constants";
@@ -26,17 +25,21 @@ export const GameEntry: FC = () => {
   }, [play]);
 
   return (
-    <Stack
-      justifyItems="center"
-      alignItems="center"
-      width={`${MAX_CANVAS_WIDTH}px`}
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+      }}
     >
-      {canvasRef && <div id="empty"></div>}
-      {play ? (
-        <MenuBar exitGame={exitGame} gameInfo={gameInfo} />
-      ) : (
-        <BreakoutMenu startPlay={enterGame} />
-      )}
-    </Stack>
+      <div style={{ width: `${MAX_CANVAS_WIDTH}px` }}>
+        {canvasRef && <div id="empty"></div>}
+        {play ? (
+          <MenuBar exitGame={exitGame} gameInfo={gameInfo} />
+        ) : (
+          <BreakoutMenu startPlay={enterGame} />
+        )}
+      </div>
+    </div>
   );
 };

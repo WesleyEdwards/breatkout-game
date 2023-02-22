@@ -1,4 +1,4 @@
-import { Coordinates } from "../helpers";
+import { Coordinates } from "../../utils/helpers";
 
 export class Brick {
   pos: Coordinates;

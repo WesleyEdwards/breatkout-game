@@ -1,4 +1,6 @@
 import { GameInfo } from "../components/Types";
+import { emptyValues } from "../utils/helpers";
+import { displayCount } from "../utils/miscFunctions";
 import { GameState } from "./gameState/GameState";
 import { setUpUI } from "./setUpUI";
 
@@ -6,25 +8,41 @@ type enterGameProps = {
   setGameInfo: (gameInfo: GameInfo) => void;
 };
 
+type Values = {
+  prevTime: number;
+  initial: boolean;
+  timeElapsed: number;
+  context: CanvasRenderingContext2D;
+};
+
 export function enterGamePlay(gameProps: enterGameProps) {
   let gameState: GameState | undefined;
-  let prevTime = 0;
-  let initial = true;
+
   const context = setUpUI();
+  const values: Values = {
+    ...emptyValues,
+    context: context,
+  };
 
   function update(elapsedTime: number) {
+    values.timeElapsed += elapsedTime;
+    if (values.timeElapsed < 3000) {
+      return;
+    }
     gameState?.updateAll(elapsedTime, handleWin);
   }
 
   function render() {
-    gameState?.drawAll(context);
+    gameState?.drawAll(values.context);
+    displayCount(values.timeElapsed, values.context);
   }
 
   function gameLoop(timeStamp: number) {
-    const elapsedTime = initial ? 0 : timeStamp - prevTime;
-    initial = false;
+    const elapsedTime = values.initial ? 0 : timeStamp - values.prevTime;
 
-    prevTime = timeStamp;
+    values.initial = false;
+
+    values.prevTime = timeStamp;
 
     update(elapsedTime);
     render();
@@ -39,7 +57,7 @@ export function enterGamePlay(gameProps: enterGameProps) {
 
   function startGame() {
     // setupCanvas(canvas, context, startOver);
-    initial = true;
+    values.initial = true;
     gameState = new GameState();
 
     requestAnimationFrame(gameLoop);

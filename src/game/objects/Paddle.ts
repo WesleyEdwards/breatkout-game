@@ -1,20 +1,19 @@
-import { Coordinates, Keys } from "../helpers";
 import {
   MAX_CANVAS_HEIGHT,
   MAX_CANVAS_WIDTH,
   paddle_height,
   paddle_speed,
+  paddle_start_pos,
   paddle_width,
 } from "../../utils/constants";
 import { colorPalette } from "../../utils/colors";
+import { Coordinates } from "../../utils/helpers";
+import { Keys } from "../gameState/game_constructor";
 
 export class Paddle {
   pos: Coordinates;
   constructor() {
-    this.pos = {
-      x: MAX_CANVAS_WIDTH / 2 - paddle_width / 2,
-      y: MAX_CANVAS_HEIGHT - paddle_height * 2,
-    };
+    this.pos = paddle_start_pos;
   }
 
   update(elapsedTime: number, keys: Keys) {

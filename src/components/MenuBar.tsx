@@ -1,5 +1,6 @@
 import { Button, Stack, Typography } from "@mui/material";
 import { FC } from "react";
+import { life_image } from "../utils/colors";
 import { GameInfo } from "./Types";
 
 interface MenuBarProps {
@@ -16,15 +17,25 @@ export const MenuBar: FC<MenuBarProps> = (props) => {
       justifyContent="space-between"
       alignItems="center"
     >
-      <Typography
-        variant="h5"
+      <div
         style={{
           width: "12rem",
           display: "flex",
         }}
       >
-        lives: {gameInfo.lives}
-      </Typography>
+        {new Array(gameInfo.lives).fill(null).map((_, i) => (
+          <img
+            src={life_image}
+            style={{
+              objectFit: "contain",
+            }}
+            alt="heart"
+            width="50px"
+            height="50px"
+            key={i}
+          />
+        ))}
+      </div>
       <Button sx={{ width: "12rem", mt: "2rem" }} onClick={exitGame}>
         Main Menu
       </Button>

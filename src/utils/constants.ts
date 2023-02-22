@@ -1,15 +1,30 @@
+import { Coordinates } from "./helpers";
+
 export const MAX_CANVAS_WIDTH = 1024;
 export const MAX_CANVAS_HEIGHT = 576;
 
 export const paddle_height = 20;
 export const paddle_width = 100;
-export const paddle_speed = 10;
+export const paddle_speed = 14;
 
-export const init_ball_speed = 0.5;
+export const init_ball_speed = 0.4;
 export const ball_increase = 0.15;
-// export const ball_increase = 0.1;
 export const ball_radius = 10;
 
-export const lowest_bricks = 250;
-export const brick_height = 25;
+export const lowest_bricks = 220;
+export const brick_height = 20;
 export const bricks_per_row = 16;
+
+export const paddle_start_pos: Coordinates = {
+  x: MAX_CANVAS_WIDTH / 2 - paddle_width / 2,
+  y: MAX_CANVAS_HEIGHT - paddle_height * 2,
+};
+
+export const ball_start_pos: Coordinates = {
+  x: paddle_start_pos.x + paddle_width / 2,
+  y: MAX_CANVAS_HEIGHT - paddle_height * 2 - ball_radius,
+};
+export const ball_start_vel: Coordinates = {
+  x: 0.25,
+  y: -0.75,
+};

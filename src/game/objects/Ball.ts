@@ -2,25 +2,21 @@ import { colorPalette } from "../../utils/colors";
 import {
   ball_increase,
   ball_radius,
+  ball_start_pos,
+  ball_start_vel,
   init_ball_speed,
   MAX_CANVAS_HEIGHT,
   MAX_CANVAS_WIDTH,
 } from "../../utils/constants";
-import { Coordinates } from "../gameState/game_constructor";
+import { Coordinates } from "../../utils/helpers";
 
 export class Ball {
   pos: Coordinates;
   direction: Coordinates;
   bricksBroken: number = 0;
   constructor() {
-    this.pos = {
-      x: MAX_CANVAS_WIDTH / 4,
-      y: MAX_CANVAS_HEIGHT / 2,
-    };
-    this.direction = {
-      x: 0.5,
-      y: 0.5,
-    };
+    this.pos = ball_start_pos;
+    this.direction = ball_start_vel;
   }
 
   update(elapsedTime: number, collision?: number) {
