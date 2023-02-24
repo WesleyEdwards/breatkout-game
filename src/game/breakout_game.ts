@@ -1,4 +1,5 @@
 import { EnterGameProps } from "../components/Types";
+import { start_lives } from "../utils/constants";
 import { emptyValues } from "../utils/helpers";
 import { displayCount } from "../utils/miscFunctions";
 import { GameState } from "./gameState/GameState";
@@ -8,13 +9,14 @@ type Values = {
   prevTime: number;
   initial: boolean;
   totalTime: number;
+  lives: number;
 };
 
 export function enterGamePlay(gameProps: EnterGameProps) {
   let gameState: GameState | undefined;
 
   const context = setUpUI();
-  let values: Values = { ...emptyValues };
+  let values: Values = { ...emptyValues, lives: start_lives };
 
   function update(elapsedTime: number) {
     values.totalTime += elapsedTime;
@@ -34,6 +36,7 @@ export function enterGamePlay(gameProps: EnterGameProps) {
   }
 
   function gameLoop(timeStamp: number) {
+    if (values.lives === 0) return;
     const elapsedTime = values.initial ? 0 : timeStamp - values.prevTime;
 
     values.initial = false;
@@ -52,7 +55,7 @@ export function enterGamePlay(gameProps: EnterGameProps) {
 
   function handleLoseLife() {
     gameProps.decrementLife();
-    values = { ...emptyValues };
+    values = { ...emptyValues, lives: values.lives - 1 };
   }
 
   function incrementScore(points: number) {

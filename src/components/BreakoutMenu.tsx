@@ -33,7 +33,6 @@ export const BreakoutMenu: FC<BreakoutMenuProps> = (props) => {
     { text: "High Scores", onClick: () => setSelected("highScores") },
     { text: "Help", onClick: () => setSelected("help") },
     { text: "About", onClick: () => setSelected("about") },
-    { text: "PREVIEW LOSE", onClick: () => setSelected("lose") },
   ];
 
   return (

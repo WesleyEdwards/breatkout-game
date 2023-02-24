@@ -53,7 +53,7 @@ export const EndGame: FC<EndGameProps> = (props) => {
         return (
           <>
             <Typography variant="body1" textAlign="center">
-              You got a high score! Enter your name below to save it
+              You got a high score of {score}! Enter your name below to save it
             </Typography>
             <Stack direction="row" gap="1rem" width="100%">
               <TextField
