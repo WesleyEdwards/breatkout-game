@@ -1,18 +1,13 @@
+import { EnterGameProps } from "../components/Types";
 import { emptyValues } from "../utils/helpers";
 import { displayCount } from "../utils/miscFunctions";
 import { GameState } from "./gameState/GameState";
 import { setUpUI } from "./setUpUI";
 
-type EnterGameProps = {
-  decrementLife: () => void;
-  addScore: (score: number) => void;
-  onWin: () => void;
-};
-
 type Values = {
   prevTime: number;
   initial: boolean;
-  timeElapsed: number;
+  totalTime: number;
 };
 
 export function enterGamePlay(gameProps: EnterGameProps) {
@@ -22,23 +17,26 @@ export function enterGamePlay(gameProps: EnterGameProps) {
   let values: Values = { ...emptyValues };
 
   function update(elapsedTime: number) {
-    values.timeElapsed += elapsedTime;
-    if (values.timeElapsed < 3000) {
+    values.totalTime += elapsedTime;
+    if (values.totalTime < 3000) {
       return;
     }
-    gameState?.updateAll(elapsedTime, handleLoseLife, handleIncrementScore);
+    gameState?.updateAll(elapsedTime, {
+      handleLoseLife,
+      incrementScore,
+      handleWin,
+    });
   }
 
   function render() {
     gameState?.drawAll(context);
-    displayCount(values.timeElapsed, context);
+    displayCount(values.totalTime, context);
   }
 
   function gameLoop(timeStamp: number) {
     const elapsedTime = values.initial ? 0 : timeStamp - values.prevTime;
 
     values.initial = false;
-
     values.prevTime = timeStamp;
 
     update(elapsedTime);
@@ -49,7 +47,7 @@ export function enterGamePlay(gameProps: EnterGameProps) {
 
   function handleWin() {
     gameState = undefined;
-    // handleWinUi(time, score, dimensions, () => initializeGameUi(startGame));
+    gameProps.onWin();
   }
 
   function handleLoseLife() {
@@ -57,19 +55,13 @@ export function enterGamePlay(gameProps: EnterGameProps) {
     values = { ...emptyValues };
   }
 
-  function handleIncrementScore(points: number) {
+  function incrementScore(points: number) {
     gameProps.addScore(points);
   }
   function startGame() {
-    // setupCanvas(canvas, context, startOver);
     values.initial = true;
     gameState = new GameState();
     requestAnimationFrame(gameLoop);
-  }
-
-  function startOver() {
-    gameState = undefined;
-    // initializeGameUi(startGame);
   }
 
   startGame();

@@ -5,6 +5,12 @@ import { drawCanvas } from "./draw_functions";
 import { Keys, addEventListeners, createBricks } from "./game_constructor";
 import { calcBrickCollision, ballPaddleCollision } from "./game_stat_functions";
 
+type UiFunctions = {
+  handleLoseLife: () => void;
+  incrementScore: (points: number) => void;
+  handleWin: () => void;
+};
+
 export class GameState {
   private paddle: Paddle = new Paddle();
   private ball: Ball = new Ball();
@@ -14,13 +20,10 @@ export class GameState {
   constructor() {
     addEventListeners(this.keys);
   }
-  updateAll(
-    elapsedTime: number,
-    handleLoseLife: () => void,
-    incrementScore: (points: number) => void
-  ) {
-    calcBrickCollision(this.ball, this.bricks, incrementScore);
+  updateAll(elapsedTime: number, UiFunctions: UiFunctions) {
+    const { handleLoseLife, incrementScore, handleWin } = UiFunctions;
 
+    calcBrickCollision(this.ball, this.bricks, incrementScore);
     const collision = ballPaddleCollision(this.ball, this.paddle);
     const lostLife = this.ball.update(elapsedTime, collision);
     if (lostLife) {
@@ -28,6 +31,7 @@ export class GameState {
       this.resetState();
     }
     this.paddle.update(elapsedTime, this.keys);
+    if (this.checkWinState) handleWin();
   }
   drawAll(context: CanvasRenderingContext2D) {
     drawCanvas(context);
@@ -38,5 +42,9 @@ export class GameState {
   resetState() {
     this.ball = new Ball();
     this.paddle = new Paddle();
+  }
+
+  get checkWinState() {
+    return this.bricks.length === 0;
   }
 }

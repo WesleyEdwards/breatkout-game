@@ -1,8 +1,6 @@
 import { colorPalette, countDownFont } from "./colors";
 import { MAX_CANVAS_HEIGHT, MAX_CANVAS_WIDTH } from "./constants";
 
-
-
 export function displayCount(
   timeElapsed: number,
   canvas: CanvasRenderingContext2D
@@ -23,4 +21,24 @@ export function displayCount(
       MAX_CANVAS_HEIGHT * 0.7
     );
   }
+}
+
+export type ScoreRecord = {
+  name?: string;
+  score: number;
+};
+
+const scoreStorageName = "breakout-scores";
+
+export function addScoreToStorage(name: string, score: number) {
+  const scores: ScoreRecord[] = getScoresFromStorage();
+  scores.push({ name, score });
+  scores.sort((a, b) => b.score - a.score);
+  if (scores.length > 10) scores.pop();
+  localStorage.setItem(scoreStorageName, JSON.stringify(scores));
+}
+
+export function getScoresFromStorage(): ScoreRecord[] {
+  const scores = localStorage.getItem(scoreStorageName);
+  return scores ? JSON.parse(scores) : [];
 }

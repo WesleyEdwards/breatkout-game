@@ -4,14 +4,25 @@ import { GameButton } from "./GameButton";
 import About from "./menuPages/About";
 import Help from "./menuPages/Help";
 import { HighScores } from "./menuPages/HighScores";
-import LoseScreen from "./menuPages/LoseScreen";
-import { MenuButton, Page } from "./Types";
+import { WinScreen, LoseScreen } from "./menuPages/WinLoseScreens";
+import { MenuButton, Page, ScreenProps } from "./Types";
 
 type BreakoutMenuProps = {
   startPlay: () => void;
   initialPage?: Page;
   score: number;
 };
+
+type InfoPages = Exclude<Page, "menu" | "newGame">;
+
+const RenderMap: Record<InfoPages, FC<ScreenProps>> = {
+  highScores: HighScores,
+  help: Help,
+  about: About,
+  lose: LoseScreen,
+  win: WinScreen,
+};
+
 export const BreakoutMenu: FC<BreakoutMenuProps> = (props) => {
   const { startPlay, score, initialPage = "menu" } = props;
 
@@ -25,39 +36,34 @@ export const BreakoutMenu: FC<BreakoutMenuProps> = (props) => {
     { text: "PREVIEW LOSE", onClick: () => setSelected("lose") },
   ];
 
-  const backToMenu = () => setSelected("menu");
-
   return (
     <Container maxWidth="sm">
       <Card>
         <CardContent>
-          {(() => {
-            if (selected === "menu") {
+          {selected === "menu" && (
+            <Stack
+              height="16rem"
+              justifyContent="space-evenly"
+              alignItems="center"
+            >
+              {menuButtons.map((menuButton) => (
+                <GameButton
+                  key={menuButton.text}
+                  onClick={menuButton.onClick}
+                  text={menuButton.text}
+                />
+              ))}
+            </Stack>
+          )}
+
+          {Object.keys(RenderMap).map((key) => {
+            const RenderComponent = RenderMap[key as InfoPages];
+            if (selected === key) {
               return (
-                <Stack
-                  height="16rem"
-                  justifyContent="space-evenly"
-                  alignItems="center"
-                >
-                  {menuButtons.map((menuButton) => (
-                    <GameButton
-                      key={menuButton.text}
-                      onClick={menuButton.onClick}
-                      text={menuButton.text}
-                    />
-                  ))}
-                </Stack>
+                <RenderComponent key={key} onBack={setSelected} score={score} />
               );
             }
-
-            if (selected === "highScores")
-              return <HighScores onBack={backToMenu} />;
-            if (selected === "help") return <Help onBack={backToMenu} />;
-            if (selected === "about") return <About onBack={backToMenu} />;
-            if (selected === "lose")
-              return <LoseScreen onBack={backToMenu} score={score} />;
-            if (selected === "win") return <>TODO</>;
-          })()}
+          })}
         </CardContent>
       </Card>
     </Container>

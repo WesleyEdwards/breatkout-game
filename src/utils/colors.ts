@@ -16,9 +16,9 @@ export const colorPalette = {
   brick: [
     "yellow",
     "yellow",
-    // "orange",
-    // "orange",
-    // "blue",
+    "orange",
+    "orange",
+    "blue",
     // "blue",
     // "green",
     // "green",

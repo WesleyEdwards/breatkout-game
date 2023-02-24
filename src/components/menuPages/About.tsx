@@ -6,7 +6,7 @@ import ScreenHeader from "./ScreenHeader";
 export const About: FC<ScreenProps> = ({ onBack }) => {
   return (
     <Stack>
-      <ScreenHeader title="About" backToMenu={onBack} />
+      <ScreenHeader title="About" backToMenu={() => onBack("menu")} />
       <Typography variant="body1" textAlign="center">
         This game was created by Wesley Edwards
       </Typography>

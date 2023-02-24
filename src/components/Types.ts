@@ -11,7 +11,7 @@ export const initGameInfo: GameInfo = {
 };
 
 export type ScreenProps = {
-  onBack: () => void;
+  onBack: (page: Page) => void;
   score?: number;
 };
 
@@ -28,3 +28,9 @@ export type Page =
   | "about"
   | "lose"
   | "win";
+
+export type EnterGameProps = {
+  decrementLife: () => void;
+  addScore: (score: number) => void;
+  onWin: () => void;
+};

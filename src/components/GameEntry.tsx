@@ -9,7 +9,7 @@ export const GameEntry: FC = () => {
   const [play, setPlay] = useState(false);
   const [canvasRef, setCanvasRef] = useState(true);
   const [gameInfo, setGameInfo] = useState<GameInfo>({ ...initGameInfo });
-  const [initialPage, setInitialPage] = useState<Page>();
+  const [initialPage, setInitialPage] = useState<Page>("menu");
 
   const decrementLife = () => {
     setGameInfo((prev) => ({
@@ -24,11 +24,6 @@ export const GameEntry: FC = () => {
   const enterGame = () => {
     setGameInfo({ ...initGameInfo });
     setPlay(true);
-    enterGamePlay({
-      decrementLife,
-      addScore,
-      onWin,
-    });
   };
 
   const exitGame = (state: Page) => {
@@ -44,6 +39,16 @@ export const GameEntry: FC = () => {
     // Canvas is recreated, so the game is removed. This is tacky.
     setCanvasRef(true);
   }, [play]);
+
+  useEffect(() => {
+    if (canvasRef && play) {
+      enterGamePlay({
+        decrementLife,
+        addScore,
+        onWin,
+      });
+    }
+  }, [canvasRef, play]);
 
   useEffect(() => {
     if (gameInfo.lives === 0) {

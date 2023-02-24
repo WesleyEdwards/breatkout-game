@@ -16,5 +16,5 @@ export function generateRandomInt(min: number, max: number): number {
 export const emptyValues = {
   prevTime: 0,
   initial: true,
-  timeElapsed: 0,
+  totalTime: 0,
 };
