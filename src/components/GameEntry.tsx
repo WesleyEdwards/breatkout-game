@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import enterGamePlay from "../game/breakout_game";
 import { MAX_CANVAS_WIDTH } from "../utils/constants";
+import { fetchImage } from "../utils/miscFunctions";
 import BreakoutMenu from "./BreakoutMenu";
 import { MenuBar } from "./MenuBar";
 import { GameInfo, initGameInfo, Page } from "./Types";
@@ -42,10 +43,13 @@ export const GameEntry: FC = () => {
 
   useEffect(() => {
     if (canvasRef && play) {
-      enterGamePlay({
-        decrementLife,
-        addScore,
-        onWin,
+      fetchImage().then((image) => {
+        enterGamePlay({
+          decrementLife,
+          addScore,
+          onWin,
+          bgImage: image,
+        });
       });
     }
   }, [canvasRef, play]);

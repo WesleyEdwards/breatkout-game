@@ -42,3 +42,13 @@ export function getScoresFromStorage(): ScoreRecord[] {
   const scores = localStorage.getItem(scoreStorageName);
   return scores ? JSON.parse(scores) : [];
 }
+
+export function fetchImage(): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.src =
+      "https://user-images.githubusercontent.com/97990557/221115615-a28fc95a-755b-452b-9699-0d0b12edcb42.JPG";
+    image.onload = () => resolve(image);
+    image.onerror = () => reject();
+  });
+}

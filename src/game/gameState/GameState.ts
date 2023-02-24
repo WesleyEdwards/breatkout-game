@@ -33,8 +33,8 @@ export class GameState {
     this.paddle.update(elapsedTime, this.keys);
     if (this.checkWinState) handleWin();
   }
-  drawAll(context: CanvasRenderingContext2D) {
-    drawCanvas(context);
+  drawAll(context: CanvasRenderingContext2D,image: HTMLImageElement) {
+    drawCanvas(context, image);
     this.paddle.draw(context);
     this.ball.draw(context);
     this.bricks.forEach((row) => row.forEach((b) => b.draw(context)));

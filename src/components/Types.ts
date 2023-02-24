@@ -33,4 +33,5 @@ export type EnterGameProps = {
   decrementLife: () => void;
   addScore: (score: number) => void;
   onWin: () => void;
+  bgImage: HTMLImageElement;
 };
