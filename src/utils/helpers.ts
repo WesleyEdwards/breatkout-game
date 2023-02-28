@@ -17,4 +17,6 @@ export const emptyValues = {
   prevTime: 0,
   initial: true,
   totalTime: 0,
+  totalScore: 0,
+  pointsToNewBall: 0,
 };

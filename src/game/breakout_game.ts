@@ -1,5 +1,5 @@
 import { EnterGameProps } from "../components/Types";
-import { start_lives } from "../utils/constants";
+import { points_for_new_ball, start_lives } from "../utils/constants";
 import { emptyValues } from "../utils/helpers";
 import { displayCount } from "../utils/miscFunctions";
 import { GameState } from "./gameState/GameState";
@@ -10,13 +10,16 @@ type Values = {
   initial: boolean;
   totalTime: number;
   lives: number;
+  totalScore: number;
+  pointsToNewBall: number;
+  newBall?: boolean;
 };
 
 export function enterGamePlay(gameProps: EnterGameProps) {
   const audio = new Audio();
   audio.src = "/sounds/swing-train.mp3";
   audio.loop = true;
-  audio.play();
+  // audio.play();
 
   let gameState: GameState | undefined;
 
@@ -28,11 +31,20 @@ export function enterGamePlay(gameProps: EnterGameProps) {
     if (values.totalTime < 3000) {
       return;
     }
-    gameState?.updateAll(elapsedTime, {
-      handleLoseLife,
-      incrementScore,
-      handleWin,
-    });
+    if (values.pointsToNewBall >= points_for_new_ball) {
+      values.pointsToNewBall = 0;
+      values.newBall = true;
+    }
+    gameState?.updateAll(
+      elapsedTime,
+      {
+        handleLoseLife,
+        incrementScore,
+        handleWin,
+      },
+      values.newBall
+    );
+    values.newBall = false;
   }
 
   function render() {
@@ -67,6 +79,9 @@ export function enterGamePlay(gameProps: EnterGameProps) {
   }
 
   function incrementScore(points: number) {
+    values.totalScore += points;
+    values.pointsToNewBall += points;
+
     gameProps.addScore(points);
   }
   function startGame() {

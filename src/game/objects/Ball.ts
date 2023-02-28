@@ -14,8 +14,8 @@ export class Ball {
   pos: Coordinates;
   direction: Coordinates;
   bricksBroken: number = 0;
-  constructor() {
-    this.pos = { ...ball_start_pos };
+  constructor(startPos: Coordinates = ball_start_pos) {
+    this.pos = { ...startPos };
     this.direction = { ...ball_start_vel };
   }
 
