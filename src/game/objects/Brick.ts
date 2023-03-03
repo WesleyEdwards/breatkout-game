@@ -55,9 +55,9 @@ export class Brick {
   }
 
   get ownedPos() {
-    return { ...this.pos, x: this.pos.x + this.widthExtra };
+    return { ...this.pos, x: this.pos.x - this.widthExtra };
   }
   get ownedWidth() {
-    return this.width - this.widthExtra * 2;
+    return this.width + this.widthExtra * 2;
   }
 }

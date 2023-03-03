@@ -41,7 +41,7 @@ export function createBricks(canvas: CanvasRenderingContext2D): Brick[][] {
         brick_height,
         colorPalette.brick[i],
         canvas,
-        spaceBetweenBricks / 2 + 3
+        spaceBetweenBricks / 2
       );
     });
   });
