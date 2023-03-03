@@ -1,7 +1,8 @@
 import { BrickColor } from "../game/objects/Brick";
 import { Coordinates } from "./helpers";
 
-export const audio_src = "/sounds/swing-train.mp3";
+export const game_music_src = "/sounds/train-country.mp3";
+export const menu_music_src = "/sounds/swing-train.mp3";
 
 export const start_lives = 3;
 

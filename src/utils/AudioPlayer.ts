@@ -1,12 +1,15 @@
-import { audio_src } from "./constants";
+import { game_music_src } from "./constants";
 
 export class AudioPlayer {
   private audio: HTMLAudioElement;
   constructor() {
     this.audio = new Audio();
-    this.audio.src = audio_src;
+    this.audio.src = game_music_src;
     this.audio.loop = true;
-    // this.play();
+
+    setTimeout(() => {
+      this.play();
+    }, 500);
   }
 
   play() {

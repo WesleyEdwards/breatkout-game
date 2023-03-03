@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import enterGamePlay from "../game/breakout_game";
-import { MAX_CANVAS_WIDTH } from "../utils/constants";
+import { MAX_CANVAS_WIDTH, menu_music_src } from "../utils/constants";
 import { fetchImage } from "../utils/miscFunctions";
 import BreakoutMenu from "./BreakoutMenu";
 import { MenuBar } from "./MenuBar";
@@ -11,6 +11,8 @@ export const GameEntry: FC = () => {
   const [canvasRef, setCanvasRef] = useState(true);
   const [gameInfo, setGameInfo] = useState<GameInfo>({ ...initGameInfo });
   const [initialPage, setInitialPage] = useState<Page>("menu");
+
+  const [gameMusic] = useState(new Audio(menu_music_src));
 
   const decrementLife = () => {
     setGameInfo((prev) => ({
@@ -73,11 +75,16 @@ export const GameEntry: FC = () => {
         {play ? (
           <MenuBar exitGame={() => exitGame("menu")} gameInfo={gameInfo} />
         ) : (
-          <BreakoutMenu
-            startPlay={enterGame}
-            initialPage={initialPage}
-            score={gameInfo.score}
-          />
+          <>
+            <audio id="player" autoPlay loop>
+              <source src={menu_music_src} type="audio/mp3" />
+            </audio>
+            <BreakoutMenu
+              startPlay={enterGame}
+              initialPage={initialPage}
+              score={gameInfo.score}
+            />
+          </>
         )}
       </div>
     </div>
