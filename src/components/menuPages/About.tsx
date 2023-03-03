@@ -16,7 +16,8 @@ export const About: FC<ScreenProps> = ({ onBack }) => {
       </Typography>
       <Divider sx={{ m: 2 }} />
       <Typography variant="body1" textAlign="center">
-        Music: "Swing Train" (https://pixabay.com/cs/music/search/train)
+        Music: "Swing Train & Train Country Blues Rock"
+        (https://pixabay.com/cs/music/search/train)
       </Typography>
     </Stack>
   );
