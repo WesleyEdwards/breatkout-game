@@ -75,7 +75,11 @@ export function enterGamePlay(gameProps: EnterGameProps) {
 
   function handleLoseLife() {
     gameProps.decrementLife();
-    values = { ...emptyValues, lives: values.lives - 1 };
+    values = {
+      ...emptyValues,
+      pointsToNewBall: values.pointsToNewBall,
+      lives: values.lives - 1,
+    };
   }
 
   function incrementScore(points: number) {
@@ -86,7 +90,7 @@ export function enterGamePlay(gameProps: EnterGameProps) {
   }
   function startGame() {
     values.initial = true;
-    gameState = new GameState();
+    gameState = new GameState(context);
     requestAnimationFrame(gameLoop);
   }
 

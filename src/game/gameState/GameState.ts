@@ -22,10 +22,11 @@ export class GameState {
   private ball: Ball = new Ball();
   private ball2: Ball | null = null;
   private keys: Keys = { direction: "none" };
-  private bricks: Brick[][] = createBricks();
+  private bricks: Brick[][];
 
-  constructor() {
+  constructor(canvas: CanvasRenderingContext2D) {
     addEventListeners(this.keys);
+    this.bricks = createBricks(canvas);
   }
   updateAll(
     elapsedTime: number,
@@ -56,6 +57,7 @@ export class GameState {
       handleLoseLife();
       this.resetState();
     }
+    this.bricks.forEach((row) => row.forEach((b) => b.update(elapsedTime)));
     this.paddle.update(elapsedTime, this.keys);
     if (this.checkWinState) handleWin();
   }

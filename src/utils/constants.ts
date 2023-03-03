@@ -18,7 +18,12 @@ export const lowest_bricks = 220;
 export const brick_height = 20;
 export const bricks_per_row = 14;
 
-export const points_for_new_ball = 5;
+export const particles_per_row = 50;
+export const particles_per_column = 10;
+export const particle_velocity = 0.1;
+export const gravity = 0.005;
+
+export const points_for_new_ball = 100;
 
 export const paddle_start_pos: Coordinates = {
   x: MAX_CANVAS_WIDTH / 2 - paddle_width / 2,

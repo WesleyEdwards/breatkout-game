@@ -25,7 +25,7 @@ export function addEventListeners(keys: Keys) {
   });
 }
 
-export function createBricks(): Brick[][] {
+export function createBricks(canvas: CanvasRenderingContext2D): Brick[][] {
   const spaceBetweenBricks = 5;
   const emptySpaceBetween = bricks_per_row * spaceBetweenBricks;
   const screenWithEndSpace = MAX_CANVAS_WIDTH - spaceBetweenBricks;
@@ -39,7 +39,8 @@ export function createBricks(): Brick[][] {
         { x: xPos, y: yPos },
         brickWidth,
         brick_height,
-        colorPalette.brick[i]
+        colorPalette.brick[i],
+        canvas,
       );
     });
   });

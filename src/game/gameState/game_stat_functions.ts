@@ -54,7 +54,7 @@ export function calcBrickCollision(
     });
   });
   bricks.forEach((row) => {
-    if (row.every((b) => b.alive === false)) {
+    if (row.every((b) => b.isDone === true)) {
       bricks.splice(bricks.indexOf(row), 1);
       incrementScore(brick_line_points);
     }
