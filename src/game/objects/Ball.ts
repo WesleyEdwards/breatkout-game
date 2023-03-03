@@ -14,9 +14,14 @@ export class Ball {
   pos: Coordinates;
   direction: Coordinates;
   bricksBroken: number = 0;
-  constructor(startPos: Coordinates = ball_start_pos) {
-    this.pos = { ...startPos };
+  canvas: CanvasRenderingContext2D;
+  constructor(
+    canvas: CanvasRenderingContext2D,
+    startPos: Coordinates | undefined
+  ) {
+    this.pos = startPos ? { ...startPos } : { ...ball_start_pos };
     this.direction = { ...ball_start_vel };
+    this.canvas = canvas;
   }
 
   update(elapsedTime: number, collision?: number): boolean {
@@ -40,11 +45,11 @@ export class Ball {
     this.pos.y += this.direction.y * this.speed() * elapsedTime;
     return false;
   }
-  draw(context: CanvasRenderingContext2D) {
-    context.fillStyle = colorPalette.ball;
-    context.beginPath();
-    context.arc(this.pos.x, this.pos.y, ball_radius, 0, 2 * Math.PI);
-    context.fill();
+  draw() {
+    this.canvas.fillStyle = colorPalette.ball;
+    this.canvas.beginPath();
+    this.canvas.arc(this.pos.x, this.pos.y, ball_radius, 0, 2 * Math.PI);
+    this.canvas.fill();
   }
 
   handleCollision(partOfPaddle: number) {

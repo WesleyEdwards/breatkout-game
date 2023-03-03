@@ -1,6 +1,8 @@
 import { BrickColor } from "../game/objects/Brick";
 import { Coordinates } from "./helpers";
 
+export const audio_src = "/sounds/swing-train.mp3";
+
 export const start_lives = 3;
 
 export const MAX_CANVAS_WIDTH = 1024;
@@ -8,10 +10,10 @@ export const MAX_CANVAS_HEIGHT = 576;
 
 export const paddle_height = 20;
 export const paddle_width = 100;
-export const paddle_speed = 12;
+export const paddle_speed = 0.6;
 
-export const init_ball_speed = 0.4;
-export const ball_increase = 0.15;
+export const init_ball_speed = 0.3;
+export const ball_increase = 0.1;
 export const ball_radius = 10;
 
 export const lowest_bricks = 220;

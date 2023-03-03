@@ -1,65 +1,42 @@
 import { EnterGameProps } from "../components/Types";
-import { points_for_new_ball, start_lives } from "../utils/constants";
-import { emptyValues } from "../utils/helpers";
+import { AudioPlayer } from "../utils/AudioPlayer";
+import { GameStatsManager } from "../utils/GameStatsManager";
 import { displayCount } from "../utils/miscFunctions";
+import { UiFunctions } from "../utils/types";
 import { GameState } from "./gameState/GameState";
 import { setUpUI } from "./setUpUI";
 
-type Values = {
-  prevTime: number;
-  initial: boolean;
-  totalTime: number;
-  lives: number;
-  totalScore: number;
-  pointsToNewBall: number;
-  newBall?: boolean;
-};
-
 export function enterGamePlay(gameProps: EnterGameProps) {
-  const audio = new Audio();
-  audio.src = "/sounds/swing-train.mp3";
-  audio.loop = true;
-  // audio.play();
+  const audio = new AudioPlayer();
+  const stats: GameStatsManager = new GameStatsManager();
+  const uiFunctions: UiFunctions = {
+    handleLoseLife,
+    incrementScore,
+    handleWin,
+  };
 
   let gameState: GameState | undefined;
-
   const context = setUpUI();
-  let values: Values = { ...emptyValues, lives: start_lives };
 
   function update(elapsedTime: number) {
-    values.totalTime += elapsedTime;
-    if (values.totalTime < 3000) {
-      return;
-    }
-    if (values.pointsToNewBall >= points_for_new_ball) {
-      values.pointsToNewBall = 0;
-      values.newBall = true;
-    }
-    gameState?.updateAll(
-      elapsedTime,
-      {
-        handleLoseLife,
-        incrementScore,
-        handleWin,
-      },
-      values.newBall
-    );
-    values.newBall = false;
+    stats.addElapsedTime(elapsedTime);
+
+    if (stats.countingDown) return;
+
+    const newBall = stats.checkNewBall();
+    gameState?.updateAll(elapsedTime, uiFunctions, newBall);
   }
 
   function render() {
-    gameState?.drawAll(context, gameProps.bgImage);
-    displayCount(values.totalTime, context);
+    gameState?.drawAll(gameProps.bgImage);
+    displayCount(stats.totalTime, context);
   }
 
   function gameLoop(timeStamp: number) {
-    if (values.lives === 0) {
+    if (stats.lives === 0) {
       return audio.pause();
     }
-    const elapsedTime = values.initial ? 0 : timeStamp - values.prevTime;
-
-    values.initial = false;
-    values.prevTime = timeStamp;
+    const elapsedTime = stats.elapsedTime(timeStamp);
 
     update(elapsedTime);
     render();
@@ -75,21 +52,15 @@ export function enterGamePlay(gameProps: EnterGameProps) {
 
   function handleLoseLife() {
     gameProps.decrementLife();
-    values = {
-      ...emptyValues,
-      pointsToNewBall: values.pointsToNewBall,
-      lives: values.lives - 1,
-    };
+    stats.loseLife();
   }
 
   function incrementScore(points: number) {
-    values.totalScore += points;
-    values.pointsToNewBall += points;
-
+    stats.incrementScore(points);
     gameProps.addScore(points);
   }
   function startGame() {
-    values.initial = true;
+    stats.startGame();
     gameState = new GameState(context);
     requestAnimationFrame(gameLoop);
   }

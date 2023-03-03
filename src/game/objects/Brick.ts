@@ -10,6 +10,7 @@ export class Brick {
   color: BrickColor;
   alive: boolean = true;
   particles: ParticleManager;
+  canvas: CanvasRenderingContext2D;
   constructor(
     pos: Coordinates,
     width: number,
@@ -21,6 +22,7 @@ export class Brick {
     this.width = width;
     this.height = height;
     this.color = color;
+    this.canvas = canvas;
     this.particles = new ParticleManager(
       canvas,
       this.pos,
@@ -37,10 +39,10 @@ export class Brick {
     }
   }
 
-  draw(context: CanvasRenderingContext2D) {
+  draw() {
     if (this.alive) {
-      context.fillStyle = this.color;
-      context.fillRect(this.pos.x, this.pos.y, this.width, this.height);
+      this.canvas.fillStyle = this.color;
+      this.canvas.fillRect(this.pos.x, this.pos.y, this.width, this.height);
     } else {
       this.particles.draw();
     }

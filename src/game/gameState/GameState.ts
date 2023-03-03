@@ -10,24 +10,24 @@ import { Paddle } from "../objects/Paddle";
 import { drawCanvas } from "./draw_functions";
 import { Keys, addEventListeners, createBricks } from "./game_constructor";
 import { calcBrickCollision, ballPaddleCollision } from "./game_stat_functions";
-
-type UiFunctions = {
-  handleLoseLife: () => void;
-  incrementScore: (points: number) => void;
-  handleWin: () => void;
-};
+import { UiFunctions } from "../../utils/types";
 
 export class GameState {
-  private paddle: Paddle = new Paddle();
-  private ball: Ball = new Ball();
+  private paddle: Paddle;
+  private ball: Ball;
   private ball2: Ball | null = null;
   private keys: Keys = { direction: "none" };
   private bricks: Brick[][];
+  canvas: CanvasRenderingContext2D;
 
   constructor(canvas: CanvasRenderingContext2D) {
     addEventListeners(this.keys);
     this.bricks = createBricks(canvas);
+    this.paddle = new Paddle(canvas);
+    this.ball = new Ball(canvas, undefined);
+    this.canvas = canvas;
   }
+
   updateAll(
     elapsedTime: number,
     UiFunctions: UiFunctions,
@@ -36,7 +36,7 @@ export class GameState {
     const { handleLoseLife, incrementScore, handleWin } = UiFunctions;
 
     if (newBall) {
-      this.ball2 = new Ball({
+      this.ball2 = new Ball(this.canvas, {
         x: this.paddle.pos.x + paddle_width / 2,
         y: MAX_CANVAS_HEIGHT - paddle_height * 2 - ball_radius,
       });
@@ -59,19 +59,21 @@ export class GameState {
     }
     this.bricks.forEach((row) => row.forEach((b) => b.update(elapsedTime)));
     this.paddle.update(elapsedTime, this.keys);
+
     if (this.checkWinState) handleWin();
   }
-  drawAll(context: CanvasRenderingContext2D, image: HTMLImageElement) {
-    drawCanvas(context, image);
-    this.paddle.draw(context);
-    this.ball.draw(context);
-    this.ball2?.draw(context);
-    this.bricks.forEach((row) => row.forEach((b) => b.draw(context)));
+
+  drawAll(image: HTMLImageElement) {
+    drawCanvas(this.canvas, image);
+    this.paddle.draw();
+    this.ball.draw();
+    this.ball2?.draw();
+    this.bricks.forEach((row) => row.forEach((b) => b.draw()));
   }
   resetState() {
-    this.ball = new Ball();
+    this.ball = new Ball(this.canvas, undefined);
     this.ball2 = null;
-    this.paddle = new Paddle();
+    this.paddle = new Paddle(this.canvas);
   }
 
   get checkWinState() {
