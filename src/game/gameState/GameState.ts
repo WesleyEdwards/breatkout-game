@@ -58,6 +58,9 @@ export class GameState {
       this.resetState();
     }
     this.bricks.forEach((row) => row.forEach((b) => b.update(elapsedTime)));
+
+    this.checkShrinkPaddle();
+
     this.paddle.update(elapsedTime, this.keys);
 
     if (this.checkWinState) handleWin();
@@ -78,5 +81,15 @@ export class GameState {
 
   get checkWinState() {
     return this.bricks.length === 0;
+  }
+
+  checkShrinkPaddle() {
+    if (this.paddle.hasShrunk) return;
+    if (this.bricks.length === 0) return true;
+    const shrinkMe = this.bricks[this.bricks.length - 1].some(
+      (b) => b.alive === false
+    );
+
+    if (shrinkMe) this.paddle.shrink = true;
   }
 }

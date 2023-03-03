@@ -32,8 +32,8 @@ export function calcBrickCollision(
   bricks.forEach((row) => {
     row.forEach((brick) => {
       if (brick.alive) {
-        const brickPos = brick.pos;
-        const brickWidth = brick.width;
+        const brickPos = brick.ownedPos;
+        const brickWidth = brick.ownedWidth;
         const brickHeight = brick.height;
 
         if (

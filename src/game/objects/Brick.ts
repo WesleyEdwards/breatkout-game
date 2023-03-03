@@ -11,18 +11,21 @@ export class Brick {
   alive: boolean = true;
   particles: ParticleManager;
   canvas: CanvasRenderingContext2D;
+  widthExtra: number;
   constructor(
     pos: Coordinates,
     width: number,
     height: number,
     color: BrickColor,
-    canvas: CanvasRenderingContext2D
+    canvas: CanvasRenderingContext2D,
+    widthExtra: number
   ) {
     this.pos = pos;
     this.width = width;
     this.height = height;
     this.color = color;
     this.canvas = canvas;
+    this.widthExtra = widthExtra;
     this.particles = new ParticleManager(
       canvas,
       this.pos,
@@ -49,5 +52,12 @@ export class Brick {
   }
   get isDone() {
     return this.particles.done;
+  }
+
+  get ownedPos() {
+    return { ...this.pos, x: this.pos.x + this.widthExtra };
+  }
+  get ownedWidth() {
+    return this.width - this.widthExtra * 2;
   }
 }

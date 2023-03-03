@@ -15,13 +15,13 @@ export const colorPalette = {
   countDown: colorLibrary.light,
   brick: [
     "yellow",
-    "yellow",
-    "orange",
-    "orange",
-    "blue",
-    "blue",
+    // "yellow",
+    // "orange",
+    // "orange",
+    // "blue",
+    // "blue",
     "green",
-    "green",
+    // "green",
   ] satisfies BrickColor[],
 } as const;
 
