@@ -39,8 +39,8 @@ export function calcBrickCollision(
         if (
           ball.pos.x > brickPos.x &&
           ball.pos.x < brickPos.x + brickWidth &&
-          ball.pos.y > brickPos.y &&
-          ball.pos.y < brickPos.y + brickHeight
+          ball.pos.y + ball_radius > brickPos.y && // Not above
+          ball.pos.y - ball_radius < brickPos.y + brickHeight // Not below
         ) {
           brick.alive = false;
           ball.reverseY();

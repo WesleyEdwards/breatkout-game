@@ -11,7 +11,7 @@ export const BreakoutHeader: FC = () => {
       paddingY="2rem"
       color="primary"
     >
-      Breakout!
+      Trains Breakout!
     </Typography>
   );
 };

@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/material";
+import { Divider, Stack, Typography } from "@mui/material";
 import React, { FC } from "react";
 import { ScreenProps } from "../Types";
 import ScreenHeader from "./ScreenHeader";
@@ -7,8 +7,16 @@ export const About: FC<ScreenProps> = ({ onBack }) => {
   return (
     <Stack>
       <ScreenHeader title="About" backToMenu={() => onBack("menu")} />
+      <Typography variant="body1" textAlign="center" marginBottom={2}>
+        Created by: Wesley Edwards
+      </Typography>
+      {/* <Divider sx={{ m: 2 }} /> */}
       <Typography variant="body1" textAlign="center">
-        This game was created by Wesley Edwards
+        This game is dedicated to Richard Trevithick. What a legend
+      </Typography>
+      <Divider sx={{ m: 2 }} />
+      <Typography variant="body1" textAlign="center">
+        Music: "Swing Train" (https://pixabay.com/cs/music/search/train)
       </Typography>
     </Stack>
   );

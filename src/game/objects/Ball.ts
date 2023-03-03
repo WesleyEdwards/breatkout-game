@@ -1,4 +1,4 @@
-import { colorPalette } from "../../utils/colors";
+import { colorPalette, penny_image } from "../../utils/colors";
 import {
   ball_increase,
   ball_radius,
@@ -15,6 +15,7 @@ export class Ball {
   direction: Coordinates;
   bricksBroken: number = 0;
   canvas: CanvasRenderingContext2D;
+  image: HTMLImageElement;
   constructor(
     canvas: CanvasRenderingContext2D,
     startPos: Coordinates | undefined
@@ -22,6 +23,8 @@ export class Ball {
     this.pos = startPos ? { ...startPos } : { ...ball_start_pos };
     this.direction = { ...ball_start_vel };
     this.canvas = canvas;
+    this.image = new Image();
+    this.image.src = penny_image;
   }
 
   update(elapsedTime: number, collision?: number): boolean {
@@ -45,11 +48,15 @@ export class Ball {
     this.pos.y += this.direction.y * this.speed() * elapsedTime;
     return false;
   }
+
   draw() {
-    this.canvas.fillStyle = colorPalette.ball;
-    this.canvas.beginPath();
-    this.canvas.arc(this.pos.x, this.pos.y, ball_radius, 0, 2 * Math.PI);
-    this.canvas.fill();
+    this.canvas.drawImage(
+      this.image,
+      this.pos.x - ball_radius,
+      this.pos.y - ball_radius,
+      ball_radius * 2,
+      ball_radius * 2
+    );
   }
 
   handleCollision(partOfPaddle: number) {
