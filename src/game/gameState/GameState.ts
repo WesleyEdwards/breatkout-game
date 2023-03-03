@@ -14,8 +14,7 @@ import { UiFunctions } from "../../utils/types";
 
 export class GameState {
   private paddle: Paddle;
-  private ball: Ball;
-  private ball2: Ball | null = null;
+  private balls: Ball[];
   private keys: Keys = { direction: "none" };
   private bricks: Brick[][];
   canvas: CanvasRenderingContext2D;
@@ -24,7 +23,7 @@ export class GameState {
     addEventListeners(this.keys);
     this.bricks = createBricks(canvas);
     this.paddle = new Paddle(canvas);
-    this.ball = new Ball(canvas, undefined);
+    this.balls = [new Ball(canvas, undefined)];
     this.canvas = canvas;
   }
 
@@ -36,27 +35,27 @@ export class GameState {
     const { handleLoseLife, incrementScore, handleWin } = UiFunctions;
 
     if (newBall) {
-      this.ball2 = new Ball(this.canvas, {
-        x: this.paddle.pos.x + paddle_width / 2,
-        y: MAX_CANVAS_HEIGHT - paddle_height * 2 - ball_radius,
-      });
+      this.balls.push(
+        new Ball(this.canvas, {
+          x: this.paddle.pos.x + paddle_width / 2,
+          y: MAX_CANVAS_HEIGHT - paddle_height * 2 - ball_radius,
+        })
+      );
     }
 
-    if (this.ball2) {
-      calcBrickCollision(this.ball2, this.bricks, incrementScore);
-      ballPaddleCollision(this.ball2, this.paddle);
-      const collision2 = ballPaddleCollision(this.ball2, this.paddle);
-      this.ball2.update(elapsedTime, collision2);
-      if (this.ball2.pos.y > MAX_CANVAS_HEIGHT - 5) this.ball2 = null;
-    }
-
-    calcBrickCollision(this.ball, this.bricks, incrementScore);
-    const collision = ballPaddleCollision(this.ball, this.paddle);
-    const lostLife = this.ball.update(elapsedTime, collision);
-    if (lostLife) {
+    this.balls.forEach((ball) => {
+      calcBrickCollision(ball, this.bricks, incrementScore);
+      const partOfPaddleCollide = ballPaddleCollision(ball, this.paddle);
+      const outOfBounds = ball.update(elapsedTime, partOfPaddleCollide);
+      if (outOfBounds) {
+        this.balls.splice(this.balls.indexOf(ball), 1);
+      }
+    });
+    if (this.balls.length === 0) {
       handleLoseLife();
       this.resetState();
     }
+
     this.bricks.forEach((row) => row.forEach((b) => b.update(elapsedTime)));
 
     this.checkShrinkPaddle();
@@ -69,13 +68,11 @@ export class GameState {
   drawAll(image: HTMLImageElement) {
     drawCanvas(this.canvas, image);
     this.paddle.draw();
-    this.ball.draw();
-    this.ball2?.draw();
+    this.balls.forEach((ball) => ball.draw());
     this.bricks.forEach((row) => row.forEach((b) => b.draw()));
   }
   resetState() {
-    this.ball = new Ball(this.canvas, undefined);
-    this.ball2 = null;
+    this.balls = [new Ball(this.canvas, undefined)];
     this.paddle = new Paddle(this.canvas);
   }
 

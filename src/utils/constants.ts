@@ -26,7 +26,7 @@ export const particles_per_column = 10;
 export const particle_velocity = 0.1;
 export const gravity = 0.005;
 
-export const points_for_new_ball = 100;
+export const points_for_new_ball = 20;
 
 
 /* Paddle */

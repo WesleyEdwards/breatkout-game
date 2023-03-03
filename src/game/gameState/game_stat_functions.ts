@@ -16,11 +16,11 @@ export function ballPaddleCollision(
 
   if (
     ball.pos.x + ball_radius > paddle.pos.x &&
-    ball.pos.x - ball_radius < paddle.pos.x + paddle_width &&
+    ball.pos.x - ball_radius < paddle.pos.x + paddle.width &&
     ball.pos.y + ball_radius > paddle.pos.y
   ) {
     // return the paddle is hit, between -0.5 and 0.5
-    return (ball.pos.x - paddle.pos.x) / paddle_width - 0.5;
+    return (ball.pos.x - paddle.pos.x) / paddle.width - 0.5;
   }
 }
 
