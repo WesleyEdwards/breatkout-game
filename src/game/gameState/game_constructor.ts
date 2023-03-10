@@ -9,12 +9,14 @@ import { Brick } from "../objects/Brick";
 
 export type Keys = {
   direction: "left" | "right" | "none";
+  escape: boolean;
 };
 
 export function addEventListeners(keys: Keys) {
   window.addEventListener("keydown", ({ key }) => {
     if (key === "ArrowLeft") keys.direction = "left";
     if (key === "ArrowRight") keys.direction = "right";
+    if (key === " " || key === "Escape") keys.escape = true;
   });
 
   window.addEventListener("keyup", ({ key }) => {

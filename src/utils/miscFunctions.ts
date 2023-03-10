@@ -43,6 +43,10 @@ export function getScoresFromStorage(): ScoreRecord[] {
   return scores ? JSON.parse(scores) : [];
 }
 
+export function removeAllScores() {
+  localStorage.removeItem(scoreStorageName);
+}
+
 export function fetchImage(): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const image = new Image();

@@ -33,5 +33,6 @@ export type EnterGameProps = {
   decrementLife: () => void;
   addScore: (score: number) => void;
   onWin: () => void;
+  toggleModal: () => void;
   bgImage: HTMLImageElement;
 };

@@ -1,8 +1,16 @@
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import enterGamePlay from "../game/breakout_game";
 import { MAX_CANVAS_WIDTH, menu_music_src } from "../utils/constants";
 import { fetchImage } from "../utils/miscFunctions";
 import BreakoutMenu from "./BreakoutMenu";
+import { GameButton } from "./GameButton";
 import { MenuBar } from "./MenuBar";
 import { GameInfo, initGameInfo, Page } from "./Types";
 
@@ -12,7 +20,7 @@ export const GameEntry: FC = () => {
   const [gameInfo, setGameInfo] = useState<GameInfo>({ ...initGameInfo });
   const [initialPage, setInitialPage] = useState<Page>("menu");
 
-  const [gameMusic] = useState(new Audio(menu_music_src));
+  const [modal, setModal] = useState(false);
 
   const decrementLife = () => {
     setGameInfo((prev) => ({
@@ -51,6 +59,7 @@ export const GameEntry: FC = () => {
           addScore,
           onWin,
           bgImage: image,
+          toggleModal: () => setModal((prev) => !prev),
         });
       });
     }
@@ -63,30 +72,53 @@ export const GameEntry: FC = () => {
   }, [gameInfo.lives]);
 
   return (
-    <div
-      style={{
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-      }}
-    >
-      <div style={{ width: `${MAX_CANVAS_WIDTH}px` }}>
-        {canvasRef && <div id="empty"></div>}
-        {play ? (
-          <MenuBar exitGame={() => exitGame("menu")} gameInfo={gameInfo} />
-        ) : (
-          <>
-            <audio id="player" autoPlay loop>
-              <source src={menu_music_src} type="audio/mp3" />
-            </audio>
-            <BreakoutMenu
-              startPlay={enterGame}
-              initialPage={initialPage}
-              score={gameInfo.score}
-            />
-          </>
-        )}
+    <>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <div style={{ width: `${MAX_CANVAS_WIDTH}px` }}>
+          {canvasRef && <div id="empty"></div>}
+          {play ? (
+            <MenuBar exitGame={() => exitGame("menu")} gameInfo={gameInfo} />
+          ) : (
+            <>
+              <audio id="player" autoPlay loop>
+                <source src={menu_music_src} type="audio/mp3" />
+              </audio>
+              <BreakoutMenu
+                startPlay={enterGame}
+                initialPage={initialPage}
+                score={gameInfo.score}
+              />
+            </>
+          )}
+        </div>
       </div>
-    </div>
+      <Dialog
+        open={modal}
+        onClose={() => {
+          return;
+        }}
+        disableEscapeKeyDown
+      >
+        <DialogTitle>Pause</DialogTitle>
+        <DialogContent>
+          <Stack alignItems="center" gap="2rem">
+            <Typography>
+              To continue playing, press "Escape" or "Space"
+            </Typography>
+            <GameButton
+              fullWidth
+              onClick={() => location.reload()}
+              text="Main Menu"
+            />
+          </Stack>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };

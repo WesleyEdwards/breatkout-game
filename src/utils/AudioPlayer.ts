@@ -13,7 +13,7 @@ export class AudioPlayer {
   }
 
   play() {
-    this.audio.play();
+    // this.audio.play();
   }
   pause() {
     this.audio.pause();

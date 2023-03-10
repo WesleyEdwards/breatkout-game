@@ -25,12 +25,13 @@ export class Paddle {
     this.image.src = paddle_image;
   }
 
-  update(elapsedTime: number, keys: Keys) {
+  update(elapsedTime: number, keys: Keys, losing: boolean) {
+    if (losing) {
+      return this.shrinkPaddle(elapsedTime);
+    }
     if (this.shrink) {
       if (this.hasShrunk) this.shrink = false;
-
-      this.width -= shrink_rate * elapsedTime;
-      this.pos.x += (shrink_rate * elapsedTime) / 2;
+      this.shrinkPaddle(elapsedTime);
       if (this.width < 0) this.width = 0;
     }
 
@@ -52,11 +53,16 @@ export class Paddle {
       this.pos.x,
       this.pos.y - 10,
       this.width,
-      paddle_height 
+      paddle_height
     );
 
     // this.canvas.fillStyle = colorPalette.paddle;
     // this.canvas.fillRect(this.pos.x, this.pos.y, this.width, paddle_height);
+  }
+
+  shrinkPaddle(elapsedTime: number) {
+    this.width -= shrink_rate * elapsedTime;
+    this.pos.x += (shrink_rate * elapsedTime) / 2;
   }
 
   get hasShrunk() {

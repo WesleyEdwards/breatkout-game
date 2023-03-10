@@ -1,6 +1,7 @@
 import { EnterGameProps } from "../components/Types";
 import { AudioPlayer } from "../utils/AudioPlayer";
 import { GameStatsManager } from "../utils/GameStatsManager";
+import { debounceLog } from "../utils/helpers";
 import { displayCount } from "../utils/miscFunctions";
 import { UiFunctions } from "../utils/types";
 import { GameState } from "./gameState/GameState";
@@ -13,6 +14,7 @@ export function enterGamePlay(gameProps: EnterGameProps) {
     handleLoseLife,
     incrementScore,
     handleWin,
+    toggleModal,
   };
 
   let gameState: GameState | undefined;
@@ -24,10 +26,11 @@ export function enterGamePlay(gameProps: EnterGameProps) {
     if (stats.countingDown) return;
 
     const newBall = stats.checkNewBall();
-    gameState?.updateAll(elapsedTime, uiFunctions, newBall);
+    gameState?.updateAll(elapsedTime, uiFunctions, stats.paused, newBall);
   }
 
   function render() {
+    if (stats.paused) return;
     gameState?.drawAll(gameProps.bgImage);
     displayCount(stats.totalTime, context);
   }
@@ -63,6 +66,11 @@ export function enterGamePlay(gameProps: EnterGameProps) {
     stats.startGame();
     gameState = new GameState(context);
     requestAnimationFrame(gameLoop);
+  }
+
+  function toggleModal() {
+    stats.togglePause();
+    gameProps.toggleModal();
   }
 
   startGame();

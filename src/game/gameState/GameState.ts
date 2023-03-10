@@ -15,7 +15,8 @@ import { UiFunctions } from "../../utils/types";
 export class GameState {
   private paddle: Paddle;
   private balls: Ball[];
-  private keys: Keys = { direction: "none" };
+  private losing: boolean = false;
+  private keys: Keys = { direction: "none", escape: false };
   private bricks: Brick[][];
   canvas: CanvasRenderingContext2D;
 
@@ -30,9 +31,17 @@ export class GameState {
   updateAll(
     elapsedTime: number,
     UiFunctions: UiFunctions,
+    paused: boolean = false,
     newBall: boolean = false
   ) {
-    const { handleLoseLife, incrementScore, handleWin } = UiFunctions;
+    const { handleLoseLife, incrementScore, handleWin, toggleModal } =
+      UiFunctions;
+
+    if (this.keys.escape) {
+      toggleModal();
+      this.keys.escape = false;
+    }
+    if (paused) return;
 
     if (newBall) {
       this.balls.push(
@@ -52,15 +61,19 @@ export class GameState {
       }
     });
     if (this.balls.length === 0) {
-      handleLoseLife();
-      this.resetState();
+      if (this.paddle.width < 0) {
+        handleLoseLife();
+        this.resetState();
+        return;
+      }
+      this.losing = true;
     }
 
     this.bricks.forEach((row) => row.forEach((b) => b.update(elapsedTime)));
 
     this.checkShrinkPaddle();
 
-    this.paddle.update(elapsedTime, this.keys);
+    this.paddle.update(elapsedTime, this.keys, this.losing);
 
     if (this.checkWinState) handleWin();
   }
@@ -74,6 +87,7 @@ export class GameState {
   resetState() {
     this.balls = [new Ball(this.canvas, undefined)];
     this.paddle = new Paddle(this.canvas);
+    this.losing = false;
   }
 
   get checkWinState() {
@@ -81,6 +95,9 @@ export class GameState {
   }
 
   checkShrinkPaddle() {
+    if (this.losing) {
+      return (this.paddle.shrink = true);
+    }
     if (this.paddle.hasShrunk) return;
     if (this.bricks.length === 0) return true;
     const shrinkMe = this.bricks[this.bricks.length - 1].some(

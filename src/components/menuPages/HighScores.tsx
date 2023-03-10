@@ -1,11 +1,19 @@
-import { Stack, Typography } from "@mui/material";
-import React, { FC } from "react";
-import { getScoresFromStorage, ScoreRecord } from "../../utils/miscFunctions";
+import { CardActions, Stack, Typography } from "@mui/material";
+import React, { FC, useState } from "react";
+import {
+  getScoresFromStorage,
+  removeAllScores,
+  ScoreRecord,
+} from "../../utils/miscFunctions";
+import { GameButton } from "../GameButton";
 import { ScreenProps } from "../Types";
 import ScreenHeader from "./ScreenHeader";
 
 export const HighScores: FC<ScreenProps> = ({ onBack }) => {
-  const highScores: ScoreRecord[] = getScoresFromStorage();
+  const [highScores, setHighScores] = useState<ScoreRecord[]>(
+    getScoresFromStorage()
+  );
+
   return (
     <Stack>
       <ScreenHeader title="High Scores" backToMenu={() => onBack("menu")} />
@@ -27,6 +35,16 @@ export const HighScores: FC<ScreenProps> = ({ onBack }) => {
           No high scores yet. Start playing to be the first!
         </Typography>
       )}
+      <GameButton
+        sx={{ mt: 4, alignSelf: "flex-end" }}
+        fullWidth
+        text="Remove Scores"
+        color="error"
+        onClick={() => {
+          removeAllScores();
+          setHighScores([]);
+        }}
+      />
     </Stack>
   );
 };

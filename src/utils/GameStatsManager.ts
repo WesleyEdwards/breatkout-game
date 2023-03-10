@@ -7,6 +7,7 @@ export class GameStatsManager {
   lives: number = start_lives;
   totalScore: number = 0;
   pointsToNewBall: number = 0;
+  paused: boolean = false;
   //   newBall: boolean = false;
   constructor() {}
 
@@ -45,5 +46,8 @@ export class GameStatsManager {
   }
   startGame() {
     this.initial = true;
+  }
+  togglePause() {
+    this.paused = !this.paused;
   }
 }

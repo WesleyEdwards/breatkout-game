@@ -36,7 +36,7 @@ export const MenuBar: FC<MenuBarProps> = (props) => {
           />
         ))}
       </div>
-      <GameButton onClick={() => location.reload()} text="Main Menu" />
+      <Typography>Pause: Esc or Space</Typography>
       <Typography
         variant="h5"
         style={{
