@@ -12,6 +12,6 @@ const removeModuleCrossorigin = () => {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), removeModuleCrossorigin()],
+  // plugins: [react(), removeModuleCrossorigin()],
   base: "./",
 });
